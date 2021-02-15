@@ -1,7 +1,7 @@
-import { IPv4, IPv6, nsName, nsText, UInt16BE, UInt32BE } from "./validators";
+import { QueryType } from "./core/protocol";
 
 export interface DnsRecord {
-  type: string;
+  type: QueryType;
 }
 
 export type IPv4Addr = string;
@@ -115,41 +115,41 @@ export const createSrvRecord = (
   target: record.target,
   port: record.port,
 });
-
-export const RecordValidationModels = {
-  A: {
-    target: IPv4,
-  },
-  AAAA: {
-    target: IPv6,
-  },
-  CNAME: {
-    target: nsName,
-  },
-  MX: {
-    exchange: nsName,
-    ttl: UInt32BE,
-    priority: UInt16BE,
-  },
-  NS: {
-    target: nsName,
-  },
-  SOA: {
-    host: nsName,
-    admin: nsName,
-    serial: UInt32BE,
-    refresh: UInt32BE,
-    retry: UInt32BE,
-    expire: UInt32BE,
-    ttl: UInt32BE,
-  },
-  SRV: {
-    target: nsText, // XXX
-    port: UInt16BE,
-    weight: UInt16BE,
-    priority: UInt16BE,
-  },
-  TXT: {
-    target: nsText,
-  },
-};
+//
+// export const RecordValidationModels = {
+//   A: {
+//     target: IPv4,
+//   },
+//   AAAA: {
+//     target: IPv6,
+//   },
+//   CNAME: {
+//     target: nsName,
+//   },
+//   MX: {
+//     exchange: nsName,
+//     ttl: UInt32BE,
+//     priority: UInt16BE,
+//   },
+//   NS: {
+//     target: nsName,
+//   },
+//   SOA: {
+//     host: nsName,
+//     admin: nsName,
+//     serial: UInt32BE,
+//     refresh: UInt32BE,
+//     retry: UInt32BE,
+//     expire: UInt32BE,
+//     ttl: UInt32BE,
+//   },
+//   SRV: {
+//     target: nsText, // XXX
+//     port: UInt16BE,
+//     weight: UInt16BE,
+//     priority: UInt16BE,
+//   },
+//   TXT: {
+//     target: nsText,
+//   },
+// };

@@ -1,20 +1,24 @@
-import { createConsoleLog, createSoaRecord, Server } from "../src";
+import {
+  createResponse,
+  createSoaRecord,
+  DnsClass,
+  startUdpServer,
+} from "../src";
 
-const server = new Server({
-  port: 9999,
-  log: createConsoleLog(),
+// Recreating the `node-named` example with functional API
+startUdpServer((query) => {
+  const domain = query.questions![0].name;
+  return createResponse(query, [
+    {
+      type: "SOA",
+      name: domain,
+      ttl: 5,
+      class: DnsClass.Internet,
+      data: createSoaRecord({
+        host: domain,
+        serial: 12345,
+        ttl: 300,
+      }),
+    },
+  ]);
 });
-
-server.on("query", (query) => {
-  const domain = query.name;
-  const record = createSoaRecord({ host: domain, serial: 12345, ttl: 300 });
-  query.addAnswer(domain, record, 300);
-  server.send(query);
-});
-
-server
-  .start()
-  .then((server) =>
-    console.log(`Server listening on ${server.address}:${server.port}...`)
-  )
-  .catch(console.error);

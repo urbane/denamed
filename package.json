@@ -1,13 +1,14 @@
 {
   "name": "denamed",
   "description": "Pure JS lightweight, fully typed DNS server library",
-  "version": "1.0.10",
+  "version": "2.0.1",
   "author": {
     "name": "IdiotWorks"
   },
   "keywords": [
     "dns",
     "dns server",
+    "dns client",
     "typescript"
   ],
   "contributors": [
@@ -15,9 +16,6 @@
       "name": "trevoro",
       "email": "trevoro@gmail.com",
       "url": "https://github.com/trevoro"
-    },
-    {
-      "name": "Mark Cavage"
     }
   ],
   "repository": {
