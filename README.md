@@ -4,6 +4,10 @@
 
 A lightweight, functional-first, strongly typed DNS library that provides tools and HOFs for quickly building DNS client and server implementations in pure JavaScript/TypeScript.
 
+```shell
+yarn add denamed@next
+```
+
 ## Why?
 
 There are quite a few DNS server and client implementations in the wild, however most aren't very accessible beyond some static config files. Additionally, most of the libraries are in compiled languages with undesirable licensing that require complex toolchains to build and deploy.
