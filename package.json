@@ -1,9 +1,10 @@
 {
   "name": "denamed",
   "description": "Pure JS lightweight, fully typed DNS server library",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": {
-    "name": "IdiotWorks"
+    "name": "Josh Urbane",
+    "url": "https://github.com/urbane"
   },
   "keywords": [
     "dns",
@@ -20,10 +21,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/idiotworks/denamed.git"
+    "url": "git://github.com/urbane/denamed.git"
   },
   "bugs": {
-    "url": "https://github.com/idiotworks/denamed/issues"
+    "url": "https://github.com/urbane/denamed/issues"
   },
   "scripts": {
     "build": "tsc",

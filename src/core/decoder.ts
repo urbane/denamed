@@ -1,4 +1,4 @@
-import { ARecord } from "../records";
+import { ARecord, SoaRecord } from "../records";
 import {
   DnsAnswer,
   DnsMessage,
@@ -79,6 +79,7 @@ export function decodeResourceRecord(
         };
       }
       break;
+
     case "A":
       {
         const ip = decimalToIpV4(buffer.readUInt32BE(off));
@@ -92,6 +93,41 @@ export function decodeResourceRecord(
             type: "A",
             target: ip,
           } as ARecord,
+        };
+      }
+      break;
+
+    case "SOA":
+      {
+        const [mName, mLength] = decodeNsName(buffer, off);
+        off += mLength;
+        const [rName, rLength] = decodeNsName(buffer, off);
+        off += rLength;
+        const serial = buffer.readUInt32BE(off);
+        off += 4;
+        const refresh = buffer.readUInt32BE(off);
+        off += 4;
+        const retry = buffer.readUInt32BE(off);
+        off += 4;
+        const expire = buffer.readUInt32BE(off);
+        off += 4;
+        const minimum = buffer.readUInt32BE(off);
+        off += 4;
+        record = {
+          type,
+          ttl,
+          name,
+          class: dClass,
+          data: {
+            type: "SOA",
+            host: mName,
+            admin: rName,
+            serial,
+            refresh,
+            retry,
+            expire,
+            ttl: minimum,
+          } as SoaRecord,
         };
       }
       break;

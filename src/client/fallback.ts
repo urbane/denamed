@@ -8,21 +8,31 @@ export function useFallback(
   queryHandler: OptionalQueryHandler,
   server: string
 ): QueryHandler {
-  const requestMap = new Map<number, (message: DnsMessage) => any>();
+  const requestMap = new Map<
+    number,
+    (err: Error | null, message: DnsMessage) => any
+  >();
   const socket = dgram.createSocket("udp4");
+  // TODO: Add error handling
   socket.on("error", console.error);
   socket.on("message", (message) => {
-    const decoded = decodeMessage(message);
-    const req = requestMap.get(decoded.id);
-    if (req) req(decoded);
+    try {
+      const decoded = decodeMessage(message);
+      const req = requestMap.get(decoded.id);
+      if (req) req(null, decoded);
+    } catch (e) {
+      // TODO: Add error handling
+      console.error(e);
+    }
   });
   return async (query, source) => {
     const result = await queryHandler(query, source);
     if (!result) {
       return await new Promise((resolve, reject) => {
-        requestMap.set(query.id, (message) => {
+        requestMap.set(query.id, (err, message) => {
           requestMap.delete(query.id);
-          resolve(message as DnsResponseMessage);
+          if (err) reject(err);
+          else resolve(message as DnsResponseMessage);
         });
         socket.send(
           encodeMessage({ ...query, additional: undefined }),
