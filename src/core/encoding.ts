@@ -190,7 +190,7 @@ export function getEncodedSize(message: DnsMessage) {
         case "NS":
           length += (answer.data as CnameRecord | NsRecord).target
             .split(".")
-            .toString().length;
+            .toString().length + 2;
           break;
         case "SOA":
           length +=
