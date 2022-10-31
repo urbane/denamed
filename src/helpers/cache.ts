@@ -43,13 +43,14 @@ export function useCache(
     const entry = {
       answers: result.answers!,
       created: time,
-      expires: result.answers!.reduce(
-        (expires, answer) =>
-          expires === 0 || expires > time + answer.ttl * 1000
-            ? time + answer.ttl * 1000
-            : expires,
-        0
-      ),
+      expires:
+        result.answers?.reduce(
+          (expires, answer) =>
+            expires === 0 || expires > time + answer.ttl * 1000
+              ? time + answer.ttl * 1000
+              : expires,
+          0
+        ) ?? 0,
     };
     cache.set(key, entry);
     if (!cleanCacheTimer && !cacheOptions?.cache) {

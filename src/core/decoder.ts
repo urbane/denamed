@@ -187,16 +187,25 @@ export const decodeNsName = (
 ): [name: string, length: number] => {
   let start = offset;
   const name = [];
+  if (buffer.length < offset + 1) return ["", 0];
   let readLength = buffer.readUInt8(offset);
   // If this is a pointer (i.e. 0b11xxxxxx), then ref up
-  if (readLength > 63) {
+  if (readLength & 0b11000000) {
     return [decodeNsName(buffer, buffer.readUInt16BE(offset) & 0x3fff)[0], 2];
   }
   while (readLength != 0x00) {
-    offset++;
-    name.push(buffer.slice(offset, offset + readLength).toString());
-    offset = offset + readLength;
-    readLength = buffer.readUInt8(offset);
+    // Check if a pointer
+    if (readLength & 0b11000000) {
+      // End the record with a pointer
+      name.push(decodeNsName(buffer, buffer.readUInt16BE(offset) & 0x3fff)[0]);
+      offset++;
+      break;
+    } else {
+      offset++;
+      name.push(buffer.slice(offset, offset + readLength).toString());
+      offset = offset + readLength;
+    }
+    readLength = buffer.readUIntBE(offset, 1);
   }
   return [name.join("."), offset - start + 1];
 };
