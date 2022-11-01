@@ -12,3 +12,4 @@ export * from "./logging/console";
 export * from "./client/fallback";
 
 export * from "./helpers/cache";
+export * from "./helpers/zones";

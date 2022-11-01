@@ -8,6 +8,47 @@ A lightweight, functional-first, strongly typed DNS library that provides tools 
 yarn add denamed@next
 ```
 
+Then create your server, this example in `examples/zone.ts` will create a local zone, fallback to use Google's DNS and then cache the results.
+
+```typescript
+import {
+    startUdpServer,
+    useCache,
+    useFallback,
+    useZone
+} from "denamed";
+
+startUdpServer(
+    useCache(
+        useFallback(useZone({
+            tld: 'local',
+            a: {
+                test: '127.0.0.1'
+            },
+            aaaa: {
+                test: '0:0:0:0:0:0:0:1'
+            },
+            mx: {
+                mail: {
+                    value: '127.0.0.1',
+                    priority: 10
+                }
+            },
+            txt: {
+                test: 'test=record'
+            },
+            ns: {
+                ns1: '127.0.0.1'
+            },
+            cname: {
+                something: 'test.local'
+            }
+        }), "8.8.8.8")
+    )
+);
+
+```
+
 ## Why?
 
 There are quite a few DNS server and client implementations in the wild, however most aren't very accessible beyond some static config files. Additionally, most of the libraries are in compiled languages with undesirable licensing that require complex toolchains to build and deploy.
