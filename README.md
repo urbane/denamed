@@ -6,6 +6,10 @@ A lightweight, functional-first, strongly typed DNS library that provides tools 
 
 ```shell
 yarn add denamed
+
+# Or
+
+npm i denamed
 ```
 
 Then create your server, this example in `examples/zone.ts` will create a local zone, fallback to use Google's DNS and then cache the results.
