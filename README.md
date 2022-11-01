@@ -5,7 +5,7 @@
 A lightweight, functional-first, strongly typed DNS library that provides tools and HOFs for quickly building DNS client and server implementations in pure JavaScript/TypeScript.
 
 ```shell
-yarn add denamed@next
+yarn add denamed
 ```
 
 Then create your server, this example in `examples/zone.ts` will create a local zone, fallback to use Google's DNS and then cache the results.
