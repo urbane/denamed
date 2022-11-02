@@ -7,6 +7,7 @@ import {
   IPv6Addr,
   MxRecord,
   NsRecord,
+  SrvRecord,
   TxtRecord,
 } from "../records";
 
@@ -110,7 +111,29 @@ export function createAaaaAnswer(
     data: {
       type: "AAAA",
       target,
-      ttl: 1000,
+    },
+  };
+}
+
+export function createSrvAnswer(
+  question: DnsQuestion,
+  target: IPv6Addr,
+  port: number,
+  priority: number = 0,
+  weight: number = 0,
+  ttl: number = 60
+): DnsAnswer<SrvRecord> {
+  return {
+    type: "SRV",
+    ttl: ttl,
+    name: question.name,
+    class: DnsClass.Internet,
+    data: {
+      type: "SRV",
+      target,
+      port,
+      weight,
+      priority,
     },
   };
 }
