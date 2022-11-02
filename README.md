@@ -15,13 +15,13 @@ npm i denamed
 Then create your server, this example in `examples/zone.ts` will create a local zone, fallback to use Google's DNS and then cache the results.
 
 ```typescript
-import { startUdpServer, useCache, useFallback, useZone } from "denamed";
+import { startUdpServer, useCache, useFallback, useZone } from "../src";
 
 startUdpServer(
   useCache(
     useFallback(
       useZone({
-        tld: "local",
+        tld: "test",
         a: {
           test: "127.0.0.1",
         },
@@ -41,7 +41,10 @@ startUdpServer(
           ns1: "127.0.0.1",
         },
         cname: {
-          something: "test.local",
+          alias: "test.test",
+        },
+        srv: {
+          "_chat._tcp": { value: "test.test", port: 2000 },
         },
       }),
       "8.8.8.8"
